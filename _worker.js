@@ -108,9 +108,12 @@ Commercial support is available at
 export default {
   async fetch(request, env, ctx) {
     try {
+      if (!PROXY_PROTOCOL) {
+        PROXY_PROTOCOL = "https";
+      }
       const {
         PROXY_HOSTNAME,
-        PROXY_PROTOCOL = "https",
+        PROXY_PROTOCOL,
         PATHNAME_REGEX,
         UA_WHITELIST_REGEX,
         UA_BLACKLIST_REGEX,
