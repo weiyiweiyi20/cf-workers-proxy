@@ -181,17 +181,18 @@ export default {
         DEBUG
       );
       const contentType = newResponseHeaders.get("content-type") || "";
-      let body;
+      let oribody;
       if (contentType.includes("text/")) {
-        body = await replaceResponseText(
+        oribody = await replaceResponseText(
           originalResponse,
           PROXY_HOSTNAME,
           PATHNAME_REGEX,
           originHostname
         );
       } else {
-        body = originalResponse.body;
+        oribody = originalResponse.body;
       }
+      body = oribody.replace("http:\/\/","https:\/\/")
       return new Response(body, {
         status: originalResponse.status,
         headers: newResponseHeaders,
