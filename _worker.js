@@ -65,6 +65,7 @@ async function replaceResponseText(
   originHostname
 ) {
   let text = await originalResponse.text();
+  text = text.replace("http:\/\/","https:\/\/");
   if (pathnameRegex) {
     pathnameRegex = pathnameRegex.replace(/^\^/, "");
     return text.replace(
@@ -181,18 +182,17 @@ export default {
         DEBUG
       );
       const contentType = newResponseHeaders.get("content-type") || "";
-      let oribody;
+      let body;
       if (contentType.includes("text/")) {
-        oribody = await replaceResponseText(
+        body = await replaceResponseText(
           originalResponse,
           PROXY_HOSTNAME,
           PATHNAME_REGEX,
           originHostname
         );
       } else {
-        oribody = originalResponse.body;
+        body = originalResponse.body;
       }
-      body = oribody.replace("http:\/\/","https:\/\/")
       return new Response(body, {
         status: originalResponse.status,
         headers: newResponseHeaders,
