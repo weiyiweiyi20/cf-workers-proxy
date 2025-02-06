@@ -65,7 +65,7 @@ async function replaceResponseText(
   originHostname
 ) {
   let text = await originalResponse.text();
-  text = text.replace("http:\/\/","https:\/\/");
+  text = text.replace(/http:\/\//g, "https:\/\/");
   if (pathnameRegex) {
     pathnameRegex = pathnameRegex.replace(/^\^/, "");
     return text.replace(
